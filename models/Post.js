@@ -1,12 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
-
+// 
+// Post model definition
+//
 class Post extends Model {
   getUsername() {
     return '';
   }
 }
-
+// Constructor
 Post.init(
   {
     id: {
@@ -23,36 +25,21 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    createdBy: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
+      references: {
+        model: 'user',
+        key: 'email',
+      },
     },
-    createdOn: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedBy: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    updatedOn: {
+    dateCreated: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
   },
   {
-    hooks: {
-      beforeCreate: async (post) => {
-        post.createdBy = await getUsername();
-        return post;
-      },
-      beforeUpdate: async (post) => {
-        post.updatedBy = await getUsername();
-        return post;
-      },
-    },
     sequelize,
     timestamps: false,
     freezeTableName: true,
