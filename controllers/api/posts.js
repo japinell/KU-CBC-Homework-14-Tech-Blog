@@ -1,8 +1,10 @@
 // 
 // Handles CRUD operations for Post model
+// Does not need authentation to retrieve, but for create, update, and delete operations
 // 
 const router = require('express').Router();
 const { post } = require('../../models');
+const withAuth = require('../../utils/auth');
 
 // Get all posts - Data will be in the res.body
 router.get('/', async (req, res) => {
@@ -69,7 +71,7 @@ router.get('/post/:id', async (req, res) => {
 });
 
 // Post a post - Data is in the req.body and req.session
-router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
   try {
     const postData = await Post.create(req.body);
 
@@ -85,7 +87,7 @@ router.post('/', async (req, res) => {
 });
 
 // Update a post  - Data is in the req.body and req.session
-router.put("/:id", async (req, res) => {
+router.put("/:id", withAuth, async (req, res) => {
   // Update a post by its `id` value
   try {
     const post = await Post.update(req.body, {
@@ -106,7 +108,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete a post - Data is in the req.body and req.session
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", withAuth, async (req, res) => {
   // Delete a post by its `id` value
   try {
     const post = await Post.destroy({

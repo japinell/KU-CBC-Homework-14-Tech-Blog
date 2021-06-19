@@ -1,6 +1,6 @@
 // 
 // Handles CRUD operations for Comment model
-// Does not need authentation to see comments, but for create, update, and delete operations
+// Does not need authentation to retrieve comments, but for create, update, and delete operations
 // 
 const router = require('express').Router();
 const {
