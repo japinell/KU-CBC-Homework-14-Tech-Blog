@@ -1,10 +1,12 @@
 // 
 // Handles CRUD operations for User model
+// Does not need authentation to retrieve, but for create, update, and delete operations
 // 
 const router = require('express').Router();
 const {
   User
 } = require('../../models');
+const withAuth = require('../../utils/auth');
 
 // Get all users - Data will be in the res.body
 router.get('/', async (req, res) => {
@@ -71,7 +73,7 @@ router.get('/user/:id', async (req, res) => {
 });
 
 // Post a user - Data is in the req.body and req.session
-router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
   try {
     const userData = await User.create(req.body);
 
@@ -87,7 +89,7 @@ router.post('/', async (req, res) => {
 });
 
 // Update a user  - Data is in the req.body and req.session
-router.put("/:id", async (req, res) => {
+router.put("/:id", withAuth, async (req, res) => {
   // Update a user by its `id` value
   try {
     const user = await User.update(req.body, {
@@ -108,7 +110,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete a user - Data is in the req.body and req.session
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", withAuth, async (req, res) => {
   // Delete a user by its `id` value
   try {
     const user = await User.destroy({
