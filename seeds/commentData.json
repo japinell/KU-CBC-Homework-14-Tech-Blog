@@ -1,0 +1,34 @@
+[
+  {
+    "contents": "Post 1, comment 1",
+    "post_id": 1
+  },
+  {
+    "contents": "Post 1, comment 2",
+    "post_id": 1
+  },
+  {
+    "contents": "Post 1, comment 3",
+    "post_id": 1
+  },
+  {
+    "contents": "Post 2, comment 1",
+    "post_id": 1
+  },
+  {
+    "contents": "Post 2, comment 2",
+    "post_id": 1
+  },
+  {
+    "contents": "Post 3, comment 1",
+    "post_id": 1
+  },
+  {
+    "contents": "Post 4, comment 1",
+    "post_id": 1
+  },
+  {
+    "contents": "Post 5, comment 1",
+    "post_id": 1
+  }
+]
