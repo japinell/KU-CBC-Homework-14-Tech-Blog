@@ -1,11 +1,11 @@
 // 
 // Handles CRUD operations for User model
-// Does not need authentation to retrieve, but for create, update, and delete operations
+// Requires authentication to create, update, and delete operations
 // 
 const router = require('express').Router();
-const {
-  User
-} = require('../../models');
+const User = require('../../models/User');
+const Post = require('../../models/Post');
+const Comment = require('../../models/Comment');
 const withAuth = require('../../utils/auth');
 
 // Get all users - Data will be in the res.body
@@ -15,13 +15,20 @@ router.get('/', async (req, res) => {
     const userData = await User.findAll({
       include: [{
         model: Post
-      }, {
-        model: Comment
       }],
       attributes: {
-        exclude: ['password']
+        exclude: ["password"]
       },
     });
+
+    if (!userData) {
+      res.status(404).json({
+        message: 'No users found!'
+      });
+      return;
+    }
+    res.status(200).json(userData);
+    return;
 
     // Serialize data so the template can read it
     const users = userData.map((user) => user.get({
@@ -39,7 +46,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get a user by id - Data will be in the res.body
-router.get('/user/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const userData = await User.findByPk(req.params.id, {
       include: [{
