@@ -30,7 +30,7 @@ Post.init(
       allowNull: false,
       references: {
         model: 'user',
-        key: 'email',
+        key: 'id',
       },
     },
     dateCreated: {

@@ -1,12 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
-
+// 
+// Comment model definition
+//
 class Comment extends Model {
   getUsername() {
     return '';
   }
 }
-
+// Constructor
 Comment.init(
   {
     id: {
@@ -26,36 +28,21 @@ Comment.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    createdBy: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
+      references: {
+        model: 'user',
+        key: 'id',
+      },
     },
-    createdOn: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedBy: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    updatedOn: {
+    dateCreated: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
   },
   {
-    hooks: {
-      beforeCreate: async (comment) => {
-        comment.createdBy = await getUsername();
-        return comment;
-      },
-      beforeUpdate: async (comment) => {
-        comment.updatedBy = await getUsername();
-        return comment;
-      },
-    },
     sequelize,
     timestamps: false,
     freezeTableName: true,
