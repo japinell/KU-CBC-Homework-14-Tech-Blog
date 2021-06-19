@@ -2,31 +2,31 @@
   {
     "title": "Post 1",
     "contents": "Post 1 contents",
-    "username": "user1"
+    "user_id": 1
   },
   {
     "title": "Post 2",
     "contents": "Post 2 contents",
-    "username": "user1"
+    "user_id": 1
   },
   {
     "title": "Post 3",
     "contents": "Post 3 contents",
-    "username": "user1"
+    "user_id": 1
   },
   {
     "title": "Post 4",
     "contents": "Post 4 contents",
-    "username": "user2"
+    "user_id": 2
   },
   {
     "title": "Post 5",
     "contents": "Post 5 contents",
-    "username": "user2"
+    "user_id": 2
   },
   {
     "title": "Post 6",
     "contents": "Post 6 contents",
-    "username": "user3"
+    "user_id": 3
   }
 ]
