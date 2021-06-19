@@ -29,7 +29,7 @@ Comment.init(
       allowNull: false,
     },
     username: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: 'user',
@@ -51,4 +51,4 @@ Comment.init(
   }
 );
 
-module.exports = Post;
+module.exports = Comment;
