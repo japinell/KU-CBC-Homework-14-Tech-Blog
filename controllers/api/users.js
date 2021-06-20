@@ -23,15 +23,6 @@ router.get('/', async (req, res) => {
       },
     });
 
-    if (!userData) {
-      res.status(404).json({
-        message: 'No users found!'
-      });
-      return;
-    }
-    res.status(200).json(userData);
-    return;
-
     // Serialize data so the template can read it
     const users = userData.map((user) => user.get({
       plain: true
@@ -60,15 +51,6 @@ router.get('/:id', async (req, res) => {
         exclude: ["password"]
       },
     });
-
-    if (!userData) {
-      res.status(404).json({
-        message: 'No users found!'
-      });
-      return;
-    }
-    res.status(200).json(userData);
-    return;
 
     const user = userData.get({
       plain: true
