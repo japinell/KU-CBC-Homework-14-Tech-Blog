@@ -1,27 +1,34 @@
 // 
 // Handles CRUD operations for Comment model
-// Does not need authentation to retrieve comments, but for create, update, and delete operations
+// Requires authentication to create, update, and delete operations
 // 
-const router = require('express').Router();
-const {
-  comment
-} = require('../../models');
-const withAuth = require('../../utils/auth');
+const router = require("express").Router();
+const { User, Post, Comment } = require("../../models");
+const withAuth = require("../../utils/auth");
 
 // Get all comments - Data will be in the res.body
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     // Get all comments with their related data
     const commentData = await Comment.findAll({
       include: [{
-        model: Comment,
+        model: User,
         attributes: {
-          exclude: ['password']
+          exclude: ["password"]
         }
       }, {
         model: Post
       }],
     });
+
+    if (!commentData) {
+      res
+        .status(400)
+        .json({ message: "Incorrect email or password, please try again" });
+      return;
+    }
+    res.status(200).json(commentData);
+    return;
 
     // Serialize data so the template can read it
     const comments = commentData.map((comment) => Comment.get({
@@ -29,7 +36,7 @@ router.get('/', async (req, res) => {
     }));
 
     // Pass serialized data and session flag into template
-    res.render('homepage', {
+    res.render("homepage", {
       comments,
       logged_in: req.session.logged_in
     });
@@ -39,13 +46,13 @@ router.get('/', async (req, res) => {
 });
 
 // Get a comment by id - Data will be in the res.body
-router.get('/comment/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const commentData = await Comment.findByPk(req.params.id, {
       include: [{
-        model: comment,
+        model: User,
         attributes: {
-          exclude: ['password']
+          exclude: ["password"]
         }
       }, {
         model: Post
@@ -53,17 +60,19 @@ router.get('/comment/:id', async (req, res) => {
     });
 
     if (!commentData) {
-      res.status(404).json({
-        message: 'No comment found with this id!'
-      });
+      res
+        .status(400)
+        .json({ message: "Incorrect email or password, please try again" });
       return;
     }
+    res.status(200).json(commentData);
+    return;
 
     const comment = commentData.get({
       plain: true
     });
 
-    res.render('comment', {
+    res.render("comment", {
       ...comment,
       logged_in: req.session.logged_in
     });
@@ -73,7 +82,7 @@ router.get('/comment/:id', async (req, res) => {
 });
 
 // Post a comment - Data is in the req.body and req.session
-router.post('/', withAuth, async (req, res) => {
+router.post("/", withAuth, async (req, res) => {
   try {
     const newComment = await Comment.create({
       ...req.body,
@@ -108,7 +117,7 @@ router.put("/:id", withAuth, async (req, res) => {
 });
 
 // Delete a comment - Data is in the req.body and req.session
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete("/:id", withAuth, async (req, res) => {
   try {
     const commentData = await Comment.destroy({
       where: {
@@ -118,7 +127,7 @@ router.delete('/:id', withAuth, async (req, res) => {
 
     if (!commentData) {
       res.status(404).json({
-        message: 'No comment found with this id!'
+        message: "No comment found with this id!"
       });
       return;
     }
