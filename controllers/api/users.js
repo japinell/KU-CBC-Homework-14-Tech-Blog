@@ -15,6 +15,8 @@ router.get('/', async (req, res) => {
     const userData = await User.findAll({
       include: [{
         model: Post
+      }, {
+        model: Comment
       }],
       attributes: {
         exclude: ["password"]
@@ -55,16 +57,18 @@ router.get('/:id', async (req, res) => {
         model: Comment
       }],
       attributes: {
-        exclude: ['password']
+        exclude: ["password"]
       },
     });
 
     if (!userData) {
       res.status(404).json({
-        message: 'No user found with this id!'
+        message: 'No users found!'
       });
       return;
     }
+    res.status(200).json(userData);
+    return;
 
     const user = userData.get({
       plain: true

@@ -2,19 +2,19 @@
   {
     "id": 1,
     "name": "user1",
-    "password": "password12345",
+    "password": "password1",
     "email": "user1@email.com"
   },
   {
     "id": 2,
     "name": "user2",
-    "password": "password12345",
+    "password": "password2",
     "email": "user2@email.com"
   },
   {
     "id": 3,
     "name": "user3",
-    "password": "password12345",
+    "password": "password3",
     "email": "user3@email.com"
   }
 ]
