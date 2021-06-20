@@ -2,14 +2,16 @@
 // Handles CRUD operations for User model
 // Requires authentication to create, update, and delete operations
 // 
-const router = require('express').Router();
-const User = require('../../models/User');
-const Post = require('../../models/Post');
-const Comment = require('../../models/Comment');
-const withAuth = require('../../utils/auth');
+const router = require("express").Router();
+const {
+  User,
+  Post,
+  Comment
+} = require("../../models");
+const withAuth = require("../../utils/auth");
 
 // Get all users - Data will be in the res.body
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     // Get all users with their related data
     const userData = await User.findAll({
@@ -29,7 +31,7 @@ router.get('/', async (req, res) => {
     }));
 
     // Pass serialized data and session flag into template
-    res.render('homepage', {
+    res.render("homepage", {
       users,
       logged_in: req.session.logged_in
     });
@@ -39,7 +41,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get a user by id - Data will be in the res.body
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const userData = await User.findByPk(req.params.id, {
       include: [{
@@ -56,7 +58,7 @@ router.get('/:id', async (req, res) => {
       plain: true
     });
 
-    res.render('user', {
+    res.render("user", {
       ...user,
       logged_in: req.session.logged_in
     });
@@ -66,7 +68,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Post a user - Data is in the req.body and req.session
-router.post('/', withAuth, async (req, res) => {
+router.post("/", withAuth, async (req, res) => {
   try {
     const userData = await User.create(req.body);
 
@@ -124,7 +126,7 @@ router.delete("/:id", withAuth, async (req, res) => {
 });
 
 // Post a login request - Data is in the req.body and req.session
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const userData = await User.findOne({
       where: {
@@ -136,7 +138,7 @@ router.post('/login', async (req, res) => {
       res
         .status(400)
         .json({
-          message: 'Incorrect email, please try again'
+          message: "Incorrect email, please try again"
         });
       return;
     }
@@ -147,7 +149,7 @@ router.post('/login', async (req, res) => {
       res
         .status(400)
         .json({
-          message: 'Incorrect password, please try again'
+          message: "Incorrect password, please try again"
         });
       return;
     }
@@ -158,7 +160,7 @@ router.post('/login', async (req, res) => {
 
       res.json({
         user: userData,
-        message: 'You are now logged in!'
+        message: "You are now logged in!"
       });
     });
 
@@ -168,7 +170,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Post a logout request - Data is in the req.body and req.session
-router.post('/logout', (req, res) => {
+router.post("/logout", (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
