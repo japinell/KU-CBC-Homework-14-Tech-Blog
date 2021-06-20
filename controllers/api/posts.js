@@ -1,20 +1,20 @@
 // 
 // Handles CRUD operations for Post model
-// Does not need authentation to retrieve, but for create, update, and delete operations
+// Requires authentication to create, update, and delete operations
 // 
-const router = require('express').Router();
-const { post } = require('../../models');
-const withAuth = require('../../utils/auth');
+const router = require("express").Router();
+const { User, Post, Comment } = require("../../models");
+const withAuth = require("../../utils/auth");
 
 // Get all posts - Data will be in the res.body
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     // Get all posts with their related data
     const postData = await Post.findAll({
       include: [{
-        model: post,
+        model: User,
         attributes: {
-          exclude: ['password']
+          exclude: ["password"]
         }
       }, {
         model: Comment
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
     }));
 
     // Pass serialized data and session flag into template
-    res.render('homepage', {
+    res.render("homepage", {
       posts,
       logged_in: req.session.logged_in
     });
@@ -37,31 +37,24 @@ router.get('/', async (req, res) => {
 });
 
 // Get a post by id - Data will be in the res.body
-router.get('/post/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const postData = await post.findByPk(req.params.id, {
+    const postData = await Post.findByPk(req.params.id, {
       include: [{
-        model: post,
+        model: User,
         attributes: {
-          exclude: ['password']
+          exclude: ["password"]
         }
       }, {
         model: Comment
       }],
     });
 
-    if (!postData) {
-      res.status(404).json({
-        message: 'No post found with this id!'
-      });
-      return;
-    }
-
     const post = postData.get({
       plain: true
     });
 
-    res.render('post', {
+    res.render("post", {
       ...post,
       logged_in: req.session.logged_in
     });
@@ -71,7 +64,7 @@ router.get('/post/:id', async (req, res) => {
 });
 
 // Post a post - Data is in the req.body and req.session
-router.post('/', withAuth, async (req, res) => {
+router.post("/", withAuth, async (req, res) => {
   try {
     const postData = await Post.create(req.body);
 
@@ -102,7 +95,7 @@ router.put("/:id", withAuth, async (req, res) => {
       return;
     }
     res.status(200).json(post);
-  } catch (err0r) {
+  } catch (err) {
     res.status(500).json(error);
   }
 });
