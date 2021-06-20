@@ -1,3 +1,6 @@
+//
+//  Handles login processing
+//
 const loginFormHandler = async (event) => {
   event.preventDefault();
 
@@ -6,7 +9,7 @@ const loginFormHandler = async (event) => {
   const password = document.querySelector("#password").value.trim();
 
   if (email && password) {
-    // Send a POST request to the API endpoint
+    // Send a POST request to the login API 
     const res = await fetch("/api/users/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
@@ -17,11 +20,17 @@ const loginFormHandler = async (event) => {
       // If successful, redirect the browser to the profile page
       document.location.replace("/profile");
     } else {
-      alert(res.statusText);
+      alert("Incorrect email or password, please try again");
     }
+  }
+  else {
+    alert("Please enter a valid email and password");
   }
 };
 
+//
+//  Handles signup processing
+//
 const signupFormHandler = async (event) => {
   event.preventDefault();
 

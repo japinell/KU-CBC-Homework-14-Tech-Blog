@@ -100,4 +100,15 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
+router.get('/logout', (req, res) => {
+  // If the user is already logged in, destroy the session and redirect the request to the homepage
+  if (req.session.logged_in) {
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  }
+
+  res.render('homepage');
+});
+
 module.exports = router;
