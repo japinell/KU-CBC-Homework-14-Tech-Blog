@@ -36,33 +36,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get a post by id - Data will be in the res.body
-router.get("/:id", async (req, res) => {
-  try {
-    const postData = await Post.findByPk(req.params.id, {
-      include: [{
-        model: User,
-        attributes: {
-          exclude: ["password"]
-        }
-      }, {
-        model: Comment
-      }],
-    });
-
-    const post = postData.get({
-      plain: true
-    });
-
-    res.render("post", {
-      ...post,
-      logged_in: req.session.logged_in
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
 // Post a post - Data is in the req.body and req.session
 router.post("/", withAuth, async (req, res) => {
   try {

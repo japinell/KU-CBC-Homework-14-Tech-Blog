@@ -1,0 +1,22 @@
+<!-- Post -->
+<div class="card row no-gutters">
+  <div class="card col-12">
+    <div class="card-header" style="background-color: #e3f2fd;">{{title}}</div>
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p>{{contents}}</p>
+        <footer class="blockquote-footer">Posted by <cite title="Author">{{user.name}}</cite> on {{format_date dateCreated}}</footer>
+      </blockquote>
+    </div>
+    <div class="card-body">
+      <form>
+        <div class="form-group">
+          <label for="comment">Comment</label>
+          <textarea class="form-control" id="comment" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-outline-primary my-2 my-sm-0">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End of Post -->

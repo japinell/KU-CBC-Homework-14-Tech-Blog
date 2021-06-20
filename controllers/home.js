@@ -1,7 +1,5 @@
 const router = require('express').Router();
-const User = require('../models/User');
-const Post = require('../models/Post');
-const Comment = require('../models/Comment');
+const {User, Post, Comment} = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
@@ -28,6 +26,33 @@ router.get('/', async (req, res) => {
     // Pass serialized data and session flag into template
     res.render('homepage', {
       posts,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// Get a post by id - Data will be in the res.body
+router.get("/post/:id", async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+      include: [{
+        model: User,
+        attributes: {
+          exclude: ["password"]
+        }
+      }, {
+        model: Comment
+      }],
+    });
+
+    const post = postData.get({
+      plain: true
+    });
+
+    res.render("post", {
+      ...post,
       logged_in: req.session.logged_in
     });
   } catch (err) {
