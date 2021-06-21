@@ -2,6 +2,7 @@ const router = require('express').Router();
 const {User, Post, Comment} = require('../models');
 const withAuth = require('../utils/auth');
 
+// Get all posts
 router.get('/', async (req, res) => {
   try {
     // Get all posts and their associated data
@@ -30,6 +31,37 @@ router.get('/', async (req, res) => {
     });
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+// Get posts for the dashboard
+router.get('/dashboard', withAuth, async (req, res) => {
+  console.log(req.session.user_id)
+  try {
+    const userData = await User.findByPk(req.session.user_id, {
+      include: [{
+        model: Post
+      }, {
+        model: Comment
+      }],
+      attributes: {
+        exclude: ["password"]
+      },
+    });
+
+    // res.status(200).json(userData);
+    // return;
+
+    const user = userData.get({
+      plain: true
+    });
+
+    res.render("dashboard", {
+      ...user,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json({message: `Error: ${err.message}`});
   }
 });
 

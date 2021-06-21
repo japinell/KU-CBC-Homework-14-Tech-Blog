@@ -39,6 +39,11 @@ User.init({
       isEmail: true,
     },
   },
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
   userCreated: {
     type: DataTypes.STRING,
     allowNull: false,

@@ -90,7 +90,7 @@ router.post("/", withAuth, async (req, res) => {
 });
 
 // Update a user  - Data is in the req.body and req.session
-router.put("/:id", async (req, res) => {
+router.put("/:id", withAuth, async (req, res) => {
   // Update a user by its `id` value
   try {
     const user = await User.update(req.body, {
