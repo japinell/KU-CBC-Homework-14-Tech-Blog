@@ -107,8 +107,7 @@ router.get('/logout', (req, res) => {
       res.status(204).end();
     });
   }
-
-  res.render('homepage');
+  res.redirect('/');
 });
 
 module.exports = router;
