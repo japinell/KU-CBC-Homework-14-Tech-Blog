@@ -3,7 +3,11 @@
 <div class="card row no-gutters">
 <div class="card col-12">
   <div class="card-header" style="background-color: #e3f2fd;">
-    <a href="/post/{{post.id}}">{{post.title}}</a>
+    {{#if logged_in}}
+      <a href="/post/{{post.id}}">{{post.title}}</a>
+    {{else}}
+      <p>{{post.title}}</p>
+    {{/if}} 
   </div>
   <div class="card-body">
     <blockquote class="blockquote mb-0">
