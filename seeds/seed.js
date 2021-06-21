@@ -9,7 +9,7 @@ const commentData = require('./commentData.json');
 
 const seedDatabase = async () => {
   await sequelize.sync({
-    force: true
+    force: false
   });
   console.log('\n----- DATABASE SYNCED -----\n');
 

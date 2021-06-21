@@ -2,36 +2,36 @@
     "id": 1,
     "title": "Post 1",
     "contents": "Post 1 contents",
-    "user_id": 1
+    "userId": 1
   },
   {
     "id": 2,
     "title": "Post 2",
     "contents": "Post 2 contents",
-    "user_id": 1
+    "userId": 1
   },
   {
     "id": 3,
     "title": "Post 3",
     "contents": "Post 3 contents",
-    "user_id": 1
+    "userId": 1
   },
   {
     "id": 4,
     "title": "Post 4",
     "contents": "Post 4 contents",
-    "user_id": 2
+    "userId": 2
   },
   {
     "id": 5,
     "title": "Post 5",
     "contents": "Post 5 contents",
-    "user_id": 2
+    "userId": 2
   },
   {
     "id": 6,
     "title": "Post 6",
     "contents": "Post 6 contents",
-    "user_id": 3
+    "userId": 3
   }
 ]

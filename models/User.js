@@ -39,6 +39,26 @@ User.init({
       isEmail: true,
     },
   },
+  userCreated: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "admin",
+  },
+  dateCreated: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
+  userUpdated: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "admin",
+  },
+  dateUpdated: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
 }, {
   hooks: {
     beforeCreate: async (user) => {

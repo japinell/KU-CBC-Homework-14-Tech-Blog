@@ -25,6 +25,9 @@ router.get("/", async (req, res) => {
       },
     });
 
+    // res.status(200).json(userData);
+    // return;
+
     // Serialize data so the template can read it
     const users = userData.map((user) => user.get({
       plain: true
@@ -36,7 +39,7 @@ router.get("/", async (req, res) => {
       logged_in: req.session.logged_in
     });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({message: `Error: ${err.message}`});
   }
 });
 
@@ -54,6 +57,9 @@ router.get("/:id", async (req, res) => {
       },
     });
 
+    // res.status(200).json(userData);
+    // return;
+
     const user = userData.get({
       plain: true
     });
@@ -63,7 +69,7 @@ router.get("/:id", async (req, res) => {
       logged_in: req.session.logged_in
     });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({message: `Error: ${err.message}`});
   }
 });
 
@@ -79,18 +85,19 @@ router.post("/", withAuth, async (req, res) => {
       res.status(200).json(userData);
     });
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json({message: `Error: ${err.message}`});
   }
 });
 
 // Update a user  - Data is in the req.body and req.session
-router.put("/:id", withAuth, async (req, res) => {
+router.put("/:id", async (req, res) => {
   // Update a user by its `id` value
   try {
     const user = await User.update(req.body, {
       where: {
         id: req.params.id
       },
+      individualHooks: true,
     });
     if (!user) {
       res.status(404).json({
@@ -98,9 +105,13 @@ router.put("/:id", withAuth, async (req, res) => {
       });
       return;
     }
-    res.status(200).json(user);
-  } catch (err0r) {
-    res.status(500).json(error);
+    else {
+      res.status(200).json({
+        message: "User updated successfully!"
+      });
+    }
+  } catch (err) {
+    res.status(500).json({message: `Error: ${err.message}`});
   }
 });
 
@@ -120,8 +131,8 @@ router.delete("/:id", withAuth, async (req, res) => {
       return;
     }
     res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json(error);
+  } catch (err) {
+    res.status(500).json({message: `Error: ${err.message}`});
   }
 });
 

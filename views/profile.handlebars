@@ -3,14 +3,17 @@
   <div class="col-xs-12 col-sm-9 text-center-xs text-left-sm">
     <h1>Profile Update</h1>
     <p>
-      <form class="form">
+      <form class="form profile-form">
+        <div class="form-group">
+          <input class="form-control" type="hidden" value="{{id}}" id="id" name="id" readonly>
+        </div>
         <div class="form-group">
           <label for="username">Username:</label>
           <input class="form-control" type="text" value="{{name}}" id="name" name="name" readonly>
         </div>
         <div class="form-group">
           <label for="email">Email:</label>
-          <input class="form-control" type="text" id="email" name="email" />
+          <input class="form-control" type="text" value="{{email}}" id="email" name="email" />
         </div>
         <div class="form-group">
           <label for="password">Password:</label>
