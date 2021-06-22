@@ -144,6 +144,48 @@ router.get("/posts/search/:text", async (req, res) => {
   }
 });
 
+// Update a post  - Data is in the req.body and req.session
+router.put("/posts/edit/:id", withAuth, async (req, res) => {
+  // Update a post by its `id` value
+  try {
+    const post = await Post.update(req.body, {
+      where: {
+        id: req.params.id
+      },
+    });
+    if (!post) {
+      res.status(404).json({
+        message: "Post id not found!"
+      });
+      return;
+    }
+    res.status(200).json({message: "Post updated successfully!"});
+  } catch (err) {
+    res.status(500).json({message: `Error: ${err.message}`});
+  }
+});
+
+// Delete a post - Data is in the req.body and req.session
+router.delete("/posts/delete/:id", withAuth, async (req, res) => {
+  // Delete a post by its `id` value
+  try {
+    const post = await Post.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    if (!post) {
+      res.status(404).json({
+        message: "Post id not found!"
+      });
+      return;
+    }
+    res.status(200).json({message: "Post deleted successfully!"});
+  } catch (err) {
+    res.status(500).json({message: `Error: ${err.message}`});
+  }
+});
+
 // Get posts for the dashboard
 router.get("/dashboard", withAuth, async (req, res) => {
   console.log(req.session.user_id)
