@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const sequelize = require('../config/connection');
+const { Op } = require("sequelize");
 const {User, Post, Comment} = require("../models");
 const withAuth = require("../utils/auth");
 
@@ -81,6 +82,65 @@ router.get("/posts/:id", async (req, res) => {
     });
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+// Get a post by text - Data will be in the res.body
+router.get("/posts/search/:text", async (req, res) => {
+  try {
+    // Get all posts and their associated data
+    const postData = await Post.findAll({
+      where: {
+        [Op.or]: [
+          {
+            title: {
+              [Op.like]: `%${req.params.text}%`
+            }
+          },
+          {
+            contents: {
+              [Op.like]: `%${req.params.text}%`
+            }
+          },
+        ]
+      },
+      include: [{
+          model: User,
+          attributes: {
+            exclude: ["password"],
+          },
+        },
+        {
+          model: Comment,
+          attributes: {
+            include: [
+              [
+                sequelize.literal(
+                  "(SELECT name FROM user WHERE user.id = comments.user_id)"
+                ),
+                "userName",
+              ],
+            ]
+          }
+        }
+      ],
+    });
+
+    res.status(200).json(postData);
+    return;
+
+    // Serialize data so the template can read it
+    const posts = postData.map((post) => post.get({
+      plain: true
+    }));
+
+    // Pass serialized data and session flag into template
+    res.render("homepage", {
+      posts,
+      logged_in: req.session.logged_in
+    });   
+  } catch (err) {
+    res.status(500).json({message: `Error: ${err.message}`});
   }
 });
 

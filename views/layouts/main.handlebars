@@ -35,25 +35,25 @@
         <a class="navbar-brand" href="#">Chocoyo Portfolio</a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/"><i class="fas fa-home"> Home</i></a>
           </li>
           {{#if logged_in}}
           <li class="nav-item">
-            <a class="nav-link" href="/dashboard">Dashboard</a>
+            <a class="nav-link" href="/dashboard"><i class="fas fa-cubes"> Dashboard</i></a>
           </li>
           {{/if}} 
           {{#if logged_in}}
             <li class="nav-item">
-              <a class="nav-link" href="/profile">Profile</a>
+              <a class="nav-link" href="/profile"><i class="fas fa-tools"> Profile</i></a>
             </li>
           {{/if}}  
           {{#if logged_in}}
             <li class="nav-item">
-              <a class="nav-link" href="/logout">Logout</a>
+              <a class="nav-link" href="/logout"><i class="fas fa-lock-open"> Logout</i></a>
             </li>
           {{else}}
             <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
+              <a class="nav-link" href="/login"><i class="fas fa-lock"> Login</i></a>
             </li>
           {{/if}}          
         </ul>
