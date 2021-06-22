@@ -18,7 +18,17 @@ router.get("/", async (req, res) => {
           exclude: ["password"]
         }
       }, {
-        model: Post
+        model: Post,
+        attributes: {
+          include: [
+            [
+              sequelize.literal(
+                '(SELECT name FROM user WHERE user.id = post.user_id)'
+              ),
+              'userName',
+            ],
+          ]
+        }
       }],
     });
 
@@ -56,7 +66,17 @@ router.get("/:id", async (req, res) => {
           exclude: ["password"]
         }
       }, {
-        model: Post
+        model: Post,
+        attributes: {
+          include: [
+            [
+              sequelize.literal(
+                '(SELECT name FROM user WHERE user.id = post.user_id)'
+              ),
+              'userName',
+            ],
+          ]
+        }
       }],
     });
 
