@@ -46,7 +46,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get a post by id - Data will be in the res.body
-router.get("/posts/:id", async (req, res) => {
+router.get("/posts/edit/:id", async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
       include: [{
