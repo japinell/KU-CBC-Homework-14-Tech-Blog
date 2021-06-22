@@ -3,6 +3,7 @@
 // Requires authentication to create, update, and delete operations
 // 
 const router = require("express").Router();
+const sequelize = require('../../config/connection');
 const { User, Post, Comment } = require("../../models");
 const withAuth = require("../../utils/auth");
 
@@ -17,9 +18,22 @@ router.get("/", async (req, res) => {
           exclude: ["password"]
         }
       }, {
-        model: Comment
+        model: Comment,
+        attributes: {
+          include: [
+            [
+              sequelize.literal(
+                '(SELECT name FROM user WHERE user.id = comments.user_id)'
+              ),
+              'userName',
+            ],
+          ]
+        }
       }],
     });
+
+    res.status(200).json(postData);
+    return;
 
     // Serialize data so the template can read it
     const posts = postData.map((post) => post.get({
@@ -32,7 +46,50 @@ router.get("/", async (req, res) => {
       logged_in: req.session.logged_in
     });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({message: `Error: ${err.message}`});
+  }
+});
+
+// Get a post by id - Data will be in the res.body
+router.get("/:id", async (req, res) => {
+  try {
+    // Get all posts with their related data
+    const postData = await Post.findByPk(req.params.id, {
+      include: [{
+        model: User,
+        attributes: {
+          exclude: ["password"]
+        }
+      }, {
+        model: Comment,
+        attributes: {
+          include: [
+            [
+              sequelize.literal(
+                '(SELECT name FROM user WHERE user.id = comments.user_id)'
+              ),
+              'userName',
+            ],
+          ]
+        }
+      }],
+    });
+
+    res.status(200).json(postData);
+    return;
+
+    // Serialize data so the template can read it
+    const posts = postData.map((post) => post.get({
+      plain: true
+    }));
+
+    // Pass serialized data and session flag into template
+    res.render("homepage", {
+      posts,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    res.status(500).json({message: `Error: ${err.message}`});
   }
 });
 

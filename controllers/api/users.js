@@ -16,17 +16,23 @@ router.get("/", async (req, res) => {
     // Get all users with their related data
     const userData = await User.findAll({
       include: [{
-        model: Post
+        model: Post,
+        attributes: {
+          exclude: ["userId"]
+        },
       }, {
-        model: Comment
+        model: Comment,
+        attributes: {
+          exclude: ["userId"]
+        },
       }],
       attributes: {
         exclude: ["password"]
       },
     });
 
-    // res.status(200).json(userData);
-    // return;
+    res.status(200).json(userData);
+    return;
 
     // Serialize data so the template can read it
     const users = userData.map((user) => user.get({
@@ -48,17 +54,23 @@ router.get("/:id", async (req, res) => {
   try {
     const userData = await User.findByPk(req.params.id, {
       include: [{
-        model: Post
+        model: Post,
+        attributes: {
+          exclude: ["userId"]
+        },
       }, {
-        model: Comment
+        model: Comment,
+        attributes: {
+          exclude: ["userId"]
+        },
       }],
       attributes: {
         exclude: ["password"]
       },
     });
 
-    // res.status(200).json(userData);
-    // return;
+    res.status(200).json(userData);
+    return;
 
     const user = userData.get({
       plain: true
