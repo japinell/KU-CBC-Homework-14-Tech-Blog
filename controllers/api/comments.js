@@ -105,14 +105,16 @@ router.get("/:id", async (req, res) => {
 // Post a comment - Data is in the req.body and req.session
 router.post("/", withAuth, async (req, res) => {
   try {
-    const newComment = await Comment.create({
+    console.log("UserId: ");
+    console.log(req.session.user_id)
+    const comment = await Comment.create({
       ...req.body,
-      comment_id: req.session.comment_id,
+      userId: req.session.user_id,
     });
 
-    res.status(200).json(newComment);
+    res.status(200).json({message: `Comment successfully updated (${comment.id})`});
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json({message: `Error: ${err.message}`});
   }
 });
 
@@ -131,9 +133,9 @@ router.put("/:id", withAuth, async (req, res) => {
       });
       return;
     }
-    res.status(200).json(comment);
-  } catch (err0r) {
-    res.status(500).json(error);
+    res.status(200).json({message: `Comment successfully updated (${comment.id})`});
+  } catch (err) {
+    res.status(500).json({message: `Error: ${err.message}`});
   }
 });
 

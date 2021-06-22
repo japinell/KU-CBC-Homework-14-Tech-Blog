@@ -1,0 +1,46 @@
+<!-- Post -->
+<div class="card row no-gutters">
+  <div class="card col-12">
+    <div class="card-header" style="background-color: #e3f2fd;">{{title}}</div>
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p>{{contents}}</p>
+        <footer class="blockquote-footer">Posted by <cite title="Author">{{user.name}}</cite> on {{format_date dateCreated}}</footer>
+      </blockquote>
+    </div>
+    <div class="card-header" style="background-color: #e3f2fd;">Comments</div>
+    <div class="card-body">
+      {{#each comments as |comment| }}
+        <blockquote class="blockquote mb-0">
+          <p>{{comment.contents}}</p>
+          <footer class="blockquote-footer">Posted by <cite title="Author">{{comment.userName}}</cite> on {{format_date comment.dateCreated}}</footer>
+        </blockquote>
+      {{/each}}
+      <form class="form">
+        {{#if logged_in}}
+          <div class="form-group">
+            <input class="form-control" type="text" value="{{id}}" id="postId" name="postId" readonly>
+          </div>
+          <div class="form-group">
+            <label for="title">Title:</label>
+            <input class="form-control" type="text" id="title" name="title" placeholder="Title...">
+          </div>
+          <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea class="form-control" type="text" id="comment" name="comment" rows="3" placeholder="Contents..."></textarea>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-outline-primary post-form-submit my-2 my-sm-0">Submit</button>
+            <a class="btn btn-outline-primary post-form-cancel my-2 my-sm-0" href="/" role="button">Cancel</a>
+          </div>
+        {{else}} 
+          <div class="form-group">
+            <a class="btn btn-outline-primary post-form-cancel my-2 my-sm-0" href="/" role="button">Cancel</a>
+          </div>
+        {{/if}}
+      </form>     
+    </div>
+  </div>
+</div>
+<script src="../js/posts.js"></script>
+<!-- End of Post -->

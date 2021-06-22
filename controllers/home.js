@@ -1,9 +1,10 @@
-const router = require('express').Router();
-const {User, Post, Comment} = require('../models');
-const withAuth = require('../utils/auth');
+const router = require("express").Router();
+const sequelize = require('../config/connection');
+const {User, Post, Comment} = require("../models");
+const withAuth = require("../utils/auth");
 
-// Get all posts
-router.get('/', async (req, res) => {
+// Get all posts - Data will be in the res.body
+router.get("/", async (req, res) => {
   try {
     // Get all posts and their associated data
     const postData = await Post.findAll({
@@ -15,6 +16,16 @@ router.get('/', async (req, res) => {
         },
         {
           model: Comment,
+          attributes: {
+            include: [
+              [
+                sequelize.literal(
+                  "(SELECT name FROM user WHERE user.id = comments.user_id)"
+                ),
+                "userName",
+              ],
+            ]
+          }
         }
       ],
     });
@@ -27,6 +38,46 @@ router.get('/', async (req, res) => {
     res.render("homepage", {
       posts,
       logged_in: req.session.logged_in
+    });   
+  } catch (err) {
+    res.status(500).json({message: `Error: ${err.message}`});
+  }
+});
+
+// Get a post by id - Data will be in the res.body
+router.get("/posts/:id", async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+      include: [{
+        model: User,
+        attributes: {
+          exclude: ["password"]
+        }
+      }, {
+        model: Comment,
+        attributes: {
+          include: [
+            [
+              sequelize.literal(
+                "(SELECT name FROM user WHERE user.id = comments.user_id)"
+              ),
+              "userName",
+            ],
+          ]
+        }
+      }],
+    });
+
+    // res.status(200).json(postData);
+    // return;
+
+    const post = postData.get({
+      plain: true
+    });
+
+    res.render("posts", {
+      ...post,
+      logged_in: req.session.logged_in
     });
   } catch (err) {
     res.status(500).json(err);
@@ -34,7 +85,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get posts for the dashboard
-router.get('/dashboard', withAuth, async (req, res) => {
+router.get("/dashboard", withAuth, async (req, res) => {
   console.log(req.session.user_id)
   try {
     const userData = await User.findByPk(req.session.user_id, {
@@ -64,43 +115,13 @@ router.get('/dashboard', withAuth, async (req, res) => {
   }
 });
 
-// Get a post by id - Data will be in the res.body
-router.get("/post/:id", async (req, res) => {
-  try {
-    const postData = await Post.findByPk(req.params.id, {
-      include: [{
-        model: User,
-        attributes: {
-          exclude: ["password"]
-        }
-      }, {
-        model: Comment
-      }],
-    });
-
-    // res.status(200).json(postData);
-    // return;
-
-    const post = postData.get({
-      plain: true
-    });
-
-    res.render("post", {
-      ...post,
-      logged_in: req.session.logged_in
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
 // Use withAuth middleware to prevent access to route
-router.get('/profile', withAuth, async (req, res) => {
+router.get("/profile", withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
       attributes: {
-        exclude: ['password']
+        exclude: ["password"]
       },
       include: [{
         model: Post
@@ -115,7 +136,7 @@ router.get('/profile', withAuth, async (req, res) => {
       plain: true
     });
 
-    res.render('profile', {
+    res.render("profile", {
       ...user,
       logged_in: true
     });
@@ -124,24 +145,24 @@ router.get('/profile', withAuth, async (req, res) => {
   }
 });
 
-router.get('/login', (req, res) => {
+router.get("/login", (req, res) => {
   // If the user is already logged in, redirect the request to another route
   if (req.session.logged_in) {
-    res.redirect('/profile');
+    res.redirect("/profile");
     return;
   }
 
-  res.render('login');
+  res.render("login");
 });
 
-router.get('/logout', (req, res) => {
+router.get("/logout", (req, res) => {
   // If the user is already logged in, destroy the session and redirect the request to the homepage
   if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
     });
   }
-  res.redirect('/');
+  res.redirect("/");
 });
 
 module.exports = router;
