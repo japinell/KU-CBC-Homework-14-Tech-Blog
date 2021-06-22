@@ -2,8 +2,12 @@
 {{#each posts as |post| }}
 <div class="card row no-gutters">
 <div class="card col-12">
-  <div class="card-header" style="background-color: #e3f2fd;">
-    <a href="/posts/{{post.id}}">{{post.title}}</a>
+  <div class="card-header" style="background-color: #e3f2fd;">   
+     {{post.title}}
+    <a href="/posts/{{post.id}}" data-toggle="tooltip" title="Add post"><br><i class="fa fa-plus" aria-hidden="true"></i></a>
+    <a href="/posts/{{post.id}}" data-toggle="tooltip" title="Edit post"><i class="far fa-edit"></i></a>
+    <a href="/posts/{{post.id}}" data-toggle="tooltip" title="Delete post"><i class="far fa-trash-alt"></i></a>
+    <a href="/posts/{{post.id}}" data-toggle="tooltip" title="Comment post"><i class="fas fa-quote-right"></i></a>
   </div>
   <div class="card-body">
     <blockquote class="blockquote mb-0">
