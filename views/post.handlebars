@@ -8,14 +8,23 @@
         <footer class="blockquote-footer">Posted by <cite title="Author">{{user.name}}</cite> on {{format_date dateCreated}}</footer>
       </blockquote>
     </div>
+    <div class="card-header" style="background-color: #e3f2fd;">Comments</div>
     <div class="card-body">
-      <form>
-        <div class="form-group">
-          <label for="comment">Comment</label>
-          <textarea class="form-control" id="comment" rows="3"></textarea>
-        </div>
-        <button type="submit" class="btn btn-outline-primary my-2 my-sm-0">Submit</button>
-      </form>
+      {{#each comments as |comment| }}
+        <blockquote class="blockquote mb-0">
+          <p>{{comment.contents}}</p>
+          <footer class="blockquote-footer">Posted by <cite title="Author">{{comment.user_id}}</cite> on {{format_date comment.dateCreated}}</footer>
+        </blockquote>
+      {{/each}}
+      <div class="form-group">
+        <label for="comment">Post a Comment</label>
+        <form>
+          {{#if logged_in}}
+            <textarea class="form-control" id="comment" rows="3"></textarea>
+            <button type="submit" class="btn btn-outline-primary my-2 my-sm-0">Submit</button>
+          {{/if}} 
+        </form>
+      </div>     
     </div>
   </div>
 </div>
