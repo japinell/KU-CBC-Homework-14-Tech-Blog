@@ -4,8 +4,7 @@ const postSubmitHandler = async (event) => {
   const postId = document.querySelector("#postId").value.trim();
   const title = document.querySelector("#title").value.trim();
   const contents = document.querySelector("#contents").value.trim();
-  console.log("I am here!")
-  // if (postId && title && contents) {
+  if (postId && title && contents) {
     const res = await fetch(`/api/comments`, {
       method: "POST",
       body: JSON.stringify({ postId, title, contents }),
@@ -20,7 +19,7 @@ const postSubmitHandler = async (event) => {
     } else {
       alert("Failed to post comment");
     }
-  // }
+  }
 };
 
 const postCancelHandler = async (event) => {
