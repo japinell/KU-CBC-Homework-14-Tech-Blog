@@ -1,0 +1,27 @@
+<!-- Post Edit -->
+<div class='card row no-gutters'>
+  <div class='card col-12'>
+    <div class='card-header' style='background-color: #e3f2fd;'>{{title}}</div>
+    <div class='card-body'>
+      <form class='form'>
+        <blockquote class='blockquote mb-0'>
+          <p>{{contents}}</p>
+          <footer class='blockquote-footer'>Posted by
+            <cite title='Author'>{{user.name}}</cite>
+            on
+            {{format_date dateCreated}}
+          </footer>
+        </blockquote>
+        <div class='form-group'>
+          <a
+            class='btn btn-outline-primary btn-sm my-2 my-sm-0'
+            href='/'
+            role='button'
+          ><i class='fas fa-umbrella'> Cancel</i></a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script src='../js/posts.js'></script>
+<!-- End of Post Edit -->

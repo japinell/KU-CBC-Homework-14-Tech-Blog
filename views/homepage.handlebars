@@ -1,21 +1,43 @@
 <!-- All Posts -->
-{{#each posts as |post| }}
-<div class="card row no-gutters">
-<div class="card col-12">
-  <div class="card-header" style="background-color: #e3f2fd;">   
-    <span>{{post.title}}</span>
-    <a href="/posts/add" data-toggle="tooltip" title="Add post"><br><i class="fa fa-plus" aria-hidden="true"></i></a>
-    <a href="/posts/edit/{{post.id}}" data-toggle="tooltip" title="Edit post"><i class="far fa-edit"></i></a>
-    <a href="/posts/delete/{{post.id}}" data-toggle="tooltip" title="Delete post"><i class="far fa-trash-alt"></i></a>
-    <a href="/posts/comment/{{post.id}}" data-toggle="tooltip" title="Comment post"><i class="fas fa-quote-right"></i></a>
+{{#each posts as |post|}}
+  <div class='card row no-gutters'>
+    <div class='card col-12'>
+      <div class='card-header' style='background-color: #e3f2fd;'>
+        <span>{{post.title}}</span>
+        <br />
+        <a
+          href='/posts/view/{{post.id}}'
+          data-toggle='tooltip'
+          title='View post'
+        ><i class='fas fa-eye'></i></a>
+        <a href='/posts/add' data-toggle='tooltip' title='Add post'>
+          <i class='fa fa-plus' aria-hidden='true'></i></a>
+        <a
+          href='/posts/edit/{{post.id}}'
+          data-toggle='tooltip'
+          title='Edit post'
+        ><i class='far fa-edit'></i></a>
+        <a
+          href='/posts/delete/{{post.id}}'
+          data-toggle='tooltip'
+          title='Delete post'
+        ><i class='far fa-trash-alt'></i></a>
+        <a
+          href='/posts/comment/{{post.id}}'
+          data-toggle='tooltip'
+          title='Comment post'
+        ><i class='fas fa-quote-right'></i></a>
+      </div>
+      <div class='card-body'>
+        <blockquote class='blockquote mb-0'>
+          <p>{{post.contents}}</p>
+          <footer class='blockquote-footer'>Posted by
+            <cite title='Author'>{{post.user.name}}</cite>
+            on
+            {{format_date post.dateCreated}}</footer>
+        </blockquote>
+      </div>
+    </div>
   </div>
-  <div class="card-body">
-    <blockquote class="blockquote mb-0">
-      <p>{{post.contents}}</p>
-      <footer class="blockquote-footer">Posted by <cite title="Author">{{post.user.name}}</cite> on {{format_date post.dateCreated}}</footer>
-    </blockquote>
-  </div>
-</div>
-</div>
 {{/each}}
 <!-- End of All Posts -->
