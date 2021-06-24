@@ -120,6 +120,7 @@ Once the database is created and seeded with sample data, run the following comm
 ```bash
 node server.js
 ```
+The application can be run from Heroku [here](https://ku-cbc-homework-14-tech-blog.herokuapp.com/).
 
 ## Usage
 
