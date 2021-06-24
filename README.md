@@ -122,6 +122,10 @@ node server.js
 ```
 The application can be run from Heroku [here](https://ku-cbc-homework-14-tech-blog.herokuapp.com/).
 
+### TODO
+
+Enable the administration of user accounts (not required for this release).
+
 ## Usage
 
 The application has been coded to perform CRUD operations against a live database using the most common HTTP methods for REST APIs: _GET_, _POST_, _PUT_, and _DELETE_. Therefore, make sure to follow the [Installation](#installation) instructions above if you want to test the application in your development environment.
