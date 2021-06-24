@@ -107,7 +107,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', withAuth, async (req, res) => {
   const { action, postId } = req.body;
   try {
-    // Action = 1: View, 2: Add, 3: Edit, 4: Delete
+    // Action = 1: View, 2: Add, 3: Edit, 4: Delete, 6: Comment
     switch (action) {
       case '1':
         break;
@@ -137,6 +137,9 @@ router.post('/', withAuth, async (req, res) => {
             message: 'Post id not found!',
           });
         }
+        break;
+      case '5':
+        const newComment = await Comment.create(req.body);
         break;
     }
 

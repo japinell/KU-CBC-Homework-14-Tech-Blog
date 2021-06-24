@@ -1,8 +1,27 @@
-<!-- Post Edit -->
+<!-- Post View -->
 <div class='card row no-gutters'>
   <div class='card col-12'>
     <div class='card-header' style='background-color: #e3f2fd;'>{{title}}</div>
     <div class='card-body'>
+      <blockquote class='blockquote mb-0'>
+        <p>{{contents}}</p>
+        <footer class='blockquote-footer'>Posted by
+          <cite title='Author'>{{user.name}}</cite>
+          on
+          {{format_date dateCreated}}</footer>
+      </blockquote>
+    </div>
+    <div class='card-header' style='background-color: #e3f2fd;'>Comments</div>
+    <div class='card-body'>
+      {{#each comments as |comment|}}
+        <blockquote class='blockquote mb-0'>
+          <p>{{comment.contents}}</p>
+          <footer class='blockquote-footer'>Posted by
+            <cite title='Author'>{{comment.userName}}</cite>
+            on
+            {{format_date comment.dateCreated}}</footer>
+        </blockquote>
+      {{/each}}
       <form class='form'>
         <div class='form-group'>
           <input
@@ -33,4 +52,4 @@
     </div>
   </div>
 </div>
-<!-- End of Post Edit -->
+<!-- End of Post View -->
