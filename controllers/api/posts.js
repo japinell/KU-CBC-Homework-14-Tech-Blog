@@ -31,8 +31,10 @@ router.get('/', async (req, res) => {
               ],
             ],
           },
+          order: [['date_created', 'DESC']],
         },
       ],
+      order: [['date_created', 'DESC']],
     });
 
     res.status(200).json(postData);
@@ -79,6 +81,7 @@ router.get('/:id', async (req, res) => {
               ],
             ],
           },
+          order: [['date_created', 'DESC']],
         },
       ],
     });
