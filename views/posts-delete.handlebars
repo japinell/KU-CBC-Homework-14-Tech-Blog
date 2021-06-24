@@ -1,47 +1,43 @@
-<!-- Post Add -->
+<!-- Post Delete -->
 <div class='card row no-gutters'>
   <div class='card col-12'>
-    <div class='card-header' style='background-color: #e3f2fd;'>Posts</div>
+    <div class='card-header' style='background-color: #e3f2fd;'>{{title}}</div>
     <div class='card-body'>
       <form class='form' action='/api/posts' method='POST' role='form'>
+        <blockquote class='blockquote mb-0'>
+          <p>{{contents}}</p>
+          <footer class='blockquote-footer'>Posted by
+            <cite title='Author'>{{user.name}}</cite>
+            on
+            {{format_date dateCreated}}
+          </footer>
+        </blockquote>
         {{#if logged_in}}
           <div class='form-group'>
             <input
               class='form-control'
               type='hidden'
+              value='4'
               id='action'
               name='action'
-              value='2'
+              required
             />
           </div>
           <div class='form-group'>
             <input
               class='form-control'
               type='hidden'
-              id='userId'
-              name='userId'
-              value='{{user_id}}'
+              value='{{id}}'
+              id='postId'
+              name='postId'
+              readonly
             />
-          </div>
-          <div class='form-group'>
-            <label for='title'>Title:</label>
-            <input class='form-control' type='text' id='title' name='title' />
-          </div>
-          <div class='form-group'>
-            <label for='contents'>Contents:</label>
-            <textarea
-              class='form-control'
-              type='text'
-              id='contents'
-              name='contents'
-              rows='3'
-            ></textarea>
           </div>
           <div class='form-group'>
             <button
               type='submit'
               class='btn btn-outline-primary btn-sm post-form-submit my-2 my-sm-0'
-            ><i class='far fa-save'> Submit</i></button>
+            ><i class='far fa-trash-alt'> Delete</i></button>
             <a
               class='btn btn-outline-primary btn-sm my-2 my-sm-0'
               href='/'
@@ -61,5 +57,4 @@
     </div>
   </div>
 </div>
-{{! <script src='/js/posts.js'></script> }}
-<!-- End of Post Add -->
+<!-- End of Post Delete -->

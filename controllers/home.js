@@ -87,7 +87,7 @@ router.get('/posts/view/:id', async (req, res) => {
       logged_in: req.session.logged_in,
     });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ message: `Error: ${err.message}` });
   }
 });
 
@@ -96,14 +96,15 @@ router.get('/posts/add', withAuth, async (req, res) => {
   try {
     res.render('posts-add', {
       logged_in: req.session.logged_in,
+      user_id: req.session.user_id,
     });
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json({ message: `Error: ${err.message}` });
   }
 });
 
 // Get a post by id - Data will be in the res.body
-router.get('/posts/edit/:id', async (req, res) => {
+router.get('/posts/edit/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
       include: [
@@ -141,7 +142,50 @@ router.get('/posts/edit/:id', async (req, res) => {
       logged_in: req.session.logged_in,
     });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ message: `Error: ${err.message}` });
+  }
+});
+
+// Get a post by id - Data will be in the res.body
+router.get('/posts/delete/:id', withAuth, async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: {
+            exclude: ['password'],
+          },
+        },
+        {
+          model: Comment,
+          attributes: {
+            include: [
+              [
+                sequelize.literal(
+                  '(SELECT name FROM user WHERE user.id = comments.user_id)'
+                ),
+                'userName',
+              ],
+            ],
+          },
+        },
+      ],
+    });
+
+    // res.status(200).json(postData);
+    // return;
+
+    const post = postData.get({
+      plain: true,
+    });
+
+    res.render('posts-delete', {
+      ...post,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+    res.status(500).json({ message: `Error: ${err.message}` });
   }
 });
 
@@ -320,6 +364,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
     res.render('dashboard', {
       ...user,
       logged_in: req.session.logged_in,
+      user_id: req.session.user_id,
     });
   } catch (err) {
     res.status(500).json({ message: `Error: ${err.message}` });

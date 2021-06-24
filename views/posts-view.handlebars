@@ -4,6 +4,16 @@
     <div class='card-header' style='background-color: #e3f2fd;'>{{title}}</div>
     <div class='card-body'>
       <form class='form'>
+        <div class='form-group'>
+          <input
+            class='form-control'
+            type='hidden'
+            value='{{id}}'
+            id='postId'
+            name='postId'
+            readonly
+          />
+        </div>
         <blockquote class='blockquote mb-0'>
           <p>{{contents}}</p>
           <footer class='blockquote-footer'>Posted by
@@ -23,5 +33,4 @@
     </div>
   </div>
 </div>
-<script src='../js/posts.js'></script>
 <!-- End of Post Edit -->
