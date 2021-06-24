@@ -124,7 +124,7 @@ The application can be run from Heroku [here](https://ku-cbc-homework-14-tech-bl
 
 ### TODO
 
-Enable the administration of user accounts (not required for this release).
+Enable the administration of user accounts and implement the search feature (not required for this release).
 
 ## Usage
 
